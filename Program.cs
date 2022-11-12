@@ -12,7 +12,8 @@ namespace TicTacToe
     {
         static void Main()
         {
-            int vsComputer;
+            int vsComputer, escolhaPlayer;
+            string player = "X", computador = "O";
             int[] placar = {0,0};
 
             // perguntando se o jogador deseja jogar contra o computador.
@@ -20,12 +21,27 @@ namespace TicTacToe
             Console.WriteLine("[0] Não\n[1] Sim");
             vsComputer = Convert.ToInt32(Console.ReadLine());
 
+            // perguntando se o jogador quer ser X ou O.
+            if (vsComputer == 1)
+            {
+                Console.WriteLine("Você deja jogar com:");
+                Console.WriteLine("[0] X\n[1] O");
+                escolhaPlayer = Convert.ToInt32(Console.ReadLine());
+
+                if (escolhaPlayer == 1)
+                {
+                    player = "O";
+                    computador = "X";
+                }
+
+            }
+
             // coração do jogo.
             while (true)
             {
                 int jogada = 10, ocupados = 0;
                 bool gameEnd = false;
-                string vez = "X", win = "";
+                string vez = player, win = "";
 
                 Random sorteador = new Random();
 
@@ -44,7 +60,8 @@ namespace TicTacToe
                     Tabuleiro:
                     Console.Clear();
                     // grando o tabuleiro.
-                    Console.WriteLine("  X ({0}) - O ({1})\n", placar[0], placar[1]);
+                    Console.WriteLine("  X ({0}) - O ({1})", placar[0], placar[1]);
+                    Console.WriteLine("    Vez do: {0}\n", vez);
                     Console.WriteLine("     |     |     ");
                     Console.WriteLine("  {0}  |  {1}  |  {2}  ", posicao[0].ocupante, posicao[1].ocupante, posicao[2].ocupante);
                     Console.WriteLine("_____|_____|_____");
@@ -56,7 +73,7 @@ namespace TicTacToe
                     Console.WriteLine("     |     |     ");
 
                     // escolha do jogador.
-                    if (!gameEnd && vez == "X" || !gameEnd && vsComputer == 0 && vez == "O")
+                    if (!gameEnd && vez == player || !gameEnd && vsComputer == 0 && vez == "O")
                     {
                         Console.WriteLine("\nQual posição você deseja jogar?");
                         jogada = Convert.ToInt32(Console.ReadLine()) - 1;
@@ -166,7 +183,7 @@ namespace TicTacToe
                     }
 
                     // jogada do computador.
-                    if (vez == "O" && vsComputer == 1)
+                    if (vez == computador && vsComputer == 1)
                     {
                         jogada = sorteador.Next(0, 9);
                         while (posicao[jogada].ocupado == true)
