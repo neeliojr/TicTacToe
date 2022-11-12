@@ -12,13 +12,20 @@ namespace TicTacToe
     {
         static void Main()
         {
+            int vsComputer;
+            int[] placar = {0,0};
+
+            // perguntando se o jogador deseja jogar contra o computador.
+            Console.WriteLine("Deseja jogar contra o computador?");
+            Console.WriteLine("[0] Não\n[1] Sim");
+            vsComputer = Convert.ToInt32(Console.ReadLine());
+
+            // coração do jogo.
             while (true)
             {
-                int jogada, ocupados = 0;
+                int jogada = 10, ocupados = 0;
                 bool gameEnd = false;
                 string vez = "X", win = "";
-
-                jogada = 10;
 
                 Random sorteador = new Random();
 
@@ -34,9 +41,10 @@ namespace TicTacToe
                 while (!gameEnd)
                 {
 
-                Tabuleiro:
+                    Tabuleiro:
                     Console.Clear();
                     // grando o tabuleiro.
+                    Console.WriteLine("  X ({0}) - O ({1})\n", placar[0], placar[1]);
                     Console.WriteLine("     |     |     ");
                     Console.WriteLine("  {0}  |  {1}  |  {2}  ", posicao[0].ocupante, posicao[1].ocupante, posicao[2].ocupante);
                     Console.WriteLine("_____|_____|_____");
@@ -48,19 +56,30 @@ namespace TicTacToe
                     Console.WriteLine("     |     |     ");
 
                     // escolha do jogador.
-                    if (!gameEnd && vez == "X")
+                    if (!gameEnd && vez == "X" || !gameEnd && vsComputer == 0 && vez == "O")
                     {
                         Console.WriteLine("\nQual posição você deseja jogar?");
                         jogada = Convert.ToInt32(Console.ReadLine()) - 1;
                     }
                     else
                     {
+                        // caso a partida dê empate, printar isto.
                         if (win == "empate")
                         {
                             Console.WriteLine("EMPATE!");
                         }
+                        // caso a partida não dê empate, printar isto.
                         else
                         {
+                            if (win == "X")
+                            {
+                                placar[0] += 1;
+                            }
+                            else
+                            {
+                                placar[1] += 1;
+                            }
+
                             Console.WriteLine("{0} venceu!", win);
                         }
                         Console.WriteLine("\nTecle ENTER para uma nova partida.");
@@ -68,7 +87,8 @@ namespace TicTacToe
                         break;
                     }
 
-                ConferirJogada:
+                    // conferindo se o local que o jogador escolheu está ocupado.
+                    ConferirJogada:
                     if (posicao[jogada].ocupado == false)
                     {
                         posicao[jogada].ocupado = true;
@@ -125,18 +145,18 @@ namespace TicTacToe
                             win = vez;
                             goto Tabuleiro;
                         }
+
+                        // trocando o jogador.
+                        if (vez == "X")
+                        {
+                            vez = "O";
+                        }
                         else
                         {
-                            if (vez == "X")
-                            {
-                                vez = "O";
-                            }
-                            else
-                            {
-                                vez = "X";
-                            }
+                            vez = "X";
                         }
 
+                        // conferindo e marcando empate.
                         if (ocupados == 9)
                         {
                             gameEnd = true;
@@ -145,7 +165,8 @@ namespace TicTacToe
                         }
                     }
 
-                    if (vez == "O")
+                    // jogada do computador.
+                    if (vez == "O" && vsComputer == 1)
                     {
                         jogada = sorteador.Next(0, 9);
                         while (posicao[jogada].ocupado == true)
