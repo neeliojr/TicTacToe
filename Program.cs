@@ -24,7 +24,8 @@ namespace TicTacToe
             // perguntando se o jogador quer ser X ou O.
             if (vsComputer == 1)
             {
-                Console.WriteLine("Você deja jogar com:");
+                Console.Clear();
+                Console.WriteLine("Você deseja jogar com:");
                 Console.WriteLine("[0] X\n[1] O");
                 escolhaPlayer = Convert.ToInt32(Console.ReadLine());
 
